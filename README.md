@@ -1,3 +1,4 @@
+welcome to github
 # Tutorial: using Amazon AWS EC2 to run scripts from a GitHub repo
 The goal of this tutorial is to (1) configure the hardware and software of an Amazon EC2 instance that we then (2) create connect to this instance in order to clone a Git repository, then (3) run a python script (should be applicable to other coding languages). This tutorial has been prepared considering that you are using Linux or Mac OS to connect to the
 remote instance.
