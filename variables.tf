@@ -1,125 +1,121 @@
+variable "location" {
+  description = "The Azure region to deploy the PostgreSQL Flexible Server"
+  type        = string
+}
+
 variable "name" {
-  description = "Name of the Key Vault"
+  description = "The name of the PostgreSQL Flexible Server"
   type        = string
 }
 
 variable "resource_group_name" {
-  description = "Resource Group name"
+  description = "The name of the resource group"
   type        = string
 }
 
-variable "location" {
-  description = "Azure region"
-  type        = string
-}
-
-variable "tenant_id" {
-  description = "Azure Tenant ID"
+variable "server_version" {
+  description = "The PostgreSQL server version"
   type        = string
 }
 
 variable "sku_name" {
-  description = "SKU of the Key Vault (e.g., standard or premium)"
+  description = "The SKU name for the PostgreSQL server"
   type        = string
-  default     = "standard"
+}
+
+variable "storage_mb" {
+  description = "The max storage size in MB"
+  type        = number
+}
+
+variable "storage_tier" {
+  description = "The storage tier (e.g., 'P4', 'P6')"
+  type        = string
+}
+
+variable "backup_retention_days" {
+  description = "Number of days to retain backups"
+  type        = number
+}
+
+variable "geo_redundant_backup_enabled" {
+  description = "Enable geo-redundant backups"
+  type        = bool
+}
+
+variable "zone" {
+  description = "The availability zone"
+  type        = string
 }
 
 variable "public_network_access_enabled" {
-  description = "Whether public network access is enabled for the Key Vault"
+  description = "Enable public network access"
   type        = bool
-  default     = false
 }
 
-variable "purge_protection_enabled" {
-  description = "Enable purge protection"
-  type        = bool
-  default     = true
+variable "delegated_subnet_id" {
+  description = "The ID of the delegated subnet"
+  type        = string
 }
 
-variable "soft_delete_retention_days" {
-  description = "Number of days to retain soft-deleted secrets"
-  type        = number
-  default     = 90
+variable "private_dns_zone_id" {
+  description = "The ID of the private DNS zone for the server"
+  type        = string
+}
+
+variable "administrator_login" {
+  description = "The administrator username"
+  type        = string
+}
+
+variable "administrator_password" {
+  description = "The administrator username"
+  type = string
+  sensitive = true
+}
+
+variable "active_directory_auth_enabled" {
+  description = "Enable Microsoft Entra ID authentication"
+  type        = bool
+}
+
+variable "password_auth_enabled" {
+  description = "Enable password-based authentication"
+  type        = bool
+}
+
+variable "tenant_id" {
+  description = "Microsoft Entra tenant ID"
+  type        = string
 }
 
 variable "enable_telemetry" {
-  description = "Enable telemetry"
+  description = "Enable telemetry for the module"
   type        = bool
-  default     = true
 }
 
-variable "legacy_access_policies_enabled" {
-  description = "Enable legacy access policies"
-  type        = bool
-  default     = false
-}
-
-variable "network_acls" {
-  description = "Network rules for Key Vault access"
+variable "high_availability" {
+  description = "High availability configuration for PostgreSQL Flexible Server"
   type = object({
-    bypass                       = string
-    default_action               = string
-    ip_rules                     = list(string)
-    virtual_network_subnet_ids   = list(string)
+    mode                      = string
+    standby_availability_zone = number
   })
 }
 
-variable "role_assignments" {
-  description = "Base role assignments"
-  type = map(object({
-    role_definition_id_or_name = string
-    principal_id               = string
-    description                = optional(string)
-  }))
-  default = {}
-}
-
-variable "key_vault_principal_id" {
-  type = string
-}
-
-# variable "principal_id_kv_admin" {
-#   description = "Principal ID of the Key Vault Administrator"
-#   type        = string
+# variable "databases" {
+#     description = "Map of databases to create"
+#     type = map(object({
+#       name = string
+#       charset = optional(string,"UTF8")
+#       collation = optional(string, "en_US.utf8")
+#     }))
 # }
-
-# variable "principal_id_kv_secrets_officer" {
-#   description = "Principal ID for Secrets Officer"
-#   type        = string
-# }
-
-# variable "principal_id_kv_cloud_team" {
-#   description = "Principal ID of the Cloud Team"
-#   type        = string
-# }
-
-# # Optional - If you want to use private endpoints in the future
-# variable "kv_private_endpoint_name" {
-#   description = "Private Endpoint name for Key Vault"
-#   type        = string
-#   default     = null
-# }
-
-# variable "private_endpoint_subnet_id" {
-#   description = "Subnet ID where Private Endpoint will be created"
-#   type        = string
-#   default     = null
-# }
-
-# variable "private_dns_zone_resource_ids" {
-#   description = "Private DNS Zone resource IDs for PE"
-#   type        = list(string)
-#   default     = []
-# }
-
-# variable "private_service_connection_name" {
-#   description = "Name for the private service connection"
-#   type        = string
-#   default     = null
-# }
-
-# variable "network_interface_name" {
-#   description = "Name of the network interface used in Private Endpoint"
-#   type        = string
-#   default     = null
+# variable "ad_administrator" {
+#     description = "list of database administrator"
+#     type = map(object({
+#         tenant_id = string
+#         object_id = string
+#         principal_name = string
+#         principal_type =string
+#     }))
 # }
